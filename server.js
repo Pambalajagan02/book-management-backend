@@ -9,54 +9,22 @@ app.use(express.json())
 app.use(cors());
 app.use(express.urlencoded({ extended: true })); 
 let db = null
- const dbpath = process.env.DATABASE_PATH;
- const port = process.env.PORT || 3001; 
+const dbPath = path.join(__dirname, "books.db");
 
  
-
+ 
 //production*---------------------------------------------------------------production
-
-if (process.env.NODE_ENV === "production") {
-  // Serve static files from the React app's build folder
-  
-  app.use(express.static(path.join(__dirname, '../','books-management-frontend', 'build')));
-
-  // Handle all requests by sending back the index.html
-  app.get("*", (req, res) => {
-
-    res.sendFile((path.resolve(__dirname,"../", 'books-management-frontend', 'build')));
-    
-  });
-} else {
-  // In development mode, just show API status
-  app.get("/", (req, res) => {
-    res.send("API Running Successfully");
-  });
-}
-
-
-
 //production*----------------------------------------------------------------production
-
-
-
-
-
-
-
-
-
-
 
 
 
 const intializeConnection = async () => {
   try {
     db = await open({
-      filename: dbpath,
+      filename: dbPath,
       driver: sqlite3.Database,
     })
-    app.listen(port, () => {
+    app.listen(3001, () => {
       console.log(`server started at localhost:${3001}`)
     })
   } catch (e) {
